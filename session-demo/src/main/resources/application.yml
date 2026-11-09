@@ -1,0 +1,16 @@
+server:
+  servlet:
+    session:
+      # 마지막 요청 후 30분 동안 요청이 없으면 서버가 세션을 지운다 (= 자동 로그아웃)
+      timeout: 30m
+      cookie:
+        # JS(document.cookie)로 JSESSIONID를 읽지 못하게 막는다 → XSS로 세션 탈취 방지
+        http-only: true
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:sessiondb
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
