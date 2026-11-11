@@ -1,0 +1,16 @@
+jwt:
+  # HS256 서명용 비밀키. 서버만 알아야 한다. 이게 새면 누구나 아무 토큰이나 만들 수 있다.
+  # ⚠️ 학습용으로 파일에 적었다. 실무에서는 환경변수·Secret Manager로 주입하고 Git에 올리지 않는다.
+  secret: local-study-secret-key-must-be-at-least-32-bytes!!
+  # Access는 짧게: 탈취돼도 피해 시간이 짧다. 로그아웃해도 이 시간 동안은 살아 있다 (JWT의 한계)
+  access-token-validity: 15m
+  # Refresh는 길게: 사용자가 2주 동안 다시 로그인 안 해도 됨. 대신 서버 DB에 저장해서 폐기 가능하게
+  refresh-token-validity: 14d
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:jwtdb
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
