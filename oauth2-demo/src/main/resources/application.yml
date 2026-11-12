@@ -1,0 +1,24 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            # Google Cloud Console에서 발급받는 값 (README 3장). 환경변수로 주입하고 Git에 올리지 않는다.
+            # client-secret은 우리 서버 ↔ Google 사이에서만 쓰인다. 브라우저에는 절대 안 나간다.
+            client-id: ${GOOGLE_CLIENT_ID:set-GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET:set-GOOGLE_CLIENT_SECRET}
+            # openid: "로그인(OIDC)" 하겠다 → ID Token을 받는다 / profile, email: 이름·이메일 정보 요청
+            scope: openid, profile, email
+            # redirect-uri 기본값: {baseUrl}/login/oauth2/code/google
+            # authorization-uri, token-uri, jwk-set-uri 등 Google 주소는 Spring이 이미 알고 있다 (CommonOAuth2Provider)
+  datasource:
+    url: jdbc:h2:mem:oauth2db
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+app:
+  # 이 이메일로 처음 Google 로그인하면 ADMIN. 403 vs 200 비교용 (학습용)
+  admin-email: ${ADMIN_EMAIL:}
